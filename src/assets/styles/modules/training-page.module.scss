@@ -1,0 +1,63 @@
+@import "../vars";
+
+.container {
+    max-height: 80vh;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button {
+    width: 4em;
+    height: 4em;
+    background: $background-color var(--p, 0) / var(--p, 0) no-repeat;
+    transition: 0.4s, background-position 0s;
+    color: $text-color-main;
+    font-size: medium;
+    font-weight: 600;
+    border-radius: 100%;
+    border: 2px solid $menu-color;
+    margin: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    &:hover {
+        --p: 100%;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    &:active {
+        --p: 100%;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    }
+}
+
+.icon {
+    color: $menu-color;
+    width: 100%;
+
+    &:active {
+        color: $secondary-color-darker;
+    }
+}
+
+.vocabulary {
+    font-size: 1.2rem;
+    margin-top: 20px;
+    padding: 5px 10px;
+}
+
+.vocabularyNumber {
+    font-size: larger;
+    color: $secondary-color-darker;
+}
