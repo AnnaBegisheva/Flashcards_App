@@ -1,11 +1,25 @@
 import React, { useState, useEffect } from "react";
 import styles from "../assets/styles/modules/table-row.module.scss";
+import TableCellInput from "./TableCellInput";
+import CheckValidation from "./CheckValidation";
 import Icon from "@mui/material/Icon";
 
 function TableRow(props) {
   let isEditable = props.isEditable;
   const [state, setState] = useState(props);
   const [disabled, setDisabled] = useState(false);
+  const keys = ["english", "transcription", "russian", "tags"];
+
+  useEffect(() => {
+    let isEmpty = false;
+    keys.forEach((element) => {
+      if (state[element] === "") {
+        isEmpty = true;
+      }
+    });
+    setDisabled(isEmpty);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [disabled, state.english, state.russian, state.tags, state.transcription]);
 
   const handleChange = (event) => {
     setState({
@@ -13,17 +27,6 @@ function TableRow(props) {
       [event.target.dataset.name]: event.target.value,
     });
   };
-
-  
-  useEffect(() => {
-    let englishIsEnabled = state.english === "";
-    let transcriptionIsEnabled = state.transcription === "" ;
-    let tagsIsEnabled = state.tags === ""
-    let russianIsEnabled = state.russian === ""
-
-    setDisabled(englishIsEnabled || transcriptionIsEnabled || tagsIsEnabled || russianIsEnabled)
-  }, [disabled, state.english, state.russian, state.tags, state.transcription]);
-  
 
   const handleCancel = () => {
     setState({
@@ -33,57 +36,40 @@ function TableRow(props) {
   };
 
   const handleSave = () => {
-    if (!disabled) {
-      props.save(state)
+    if (validate()) {
+      props.save(state);
       props.cancel();
     }
   };
 
-  if (isEditable) {
+  const validate = () => {
+    const {valid} = CheckValidation(state, false);
+    if (valid === disabled) {
+      setDisabled(!disabled);
+    }
+    return valid;
+  };
+
+    if (isEditable) {
     return (
       <tr className={styles.row}>
-        <td className={styles.cell}>
-          <input
-            className={`${styles.input} ${state.english === "" ? `${styles.error}` : ""}`}
-            type="text"
-            onChange={handleChange}
-            value={state.english}
-            data-name={"english"}
-          ></input>
-        </td>
-        <td className={styles.cell}>
-          <input
-            className={`${styles.input} ${state.transcription === "" ? `${styles.error}` : ""}`}
-            type="text"
-            onChange={handleChange}
-            value={state.transcription}
-            data-name={"transcription"}
-          ></input>
-        </td>
-        <td className={styles.cell}>
-          <input
-            className={`${styles.input} ${state.russian === "" ? `${styles.error}` : ""}`}
-            type="text"
-            onChange={handleChange}
-            value={state.russian}
-            data-name={"russian"}
-          ></input>
-        </td>
-        <td className={styles.cell}>
-          <input
-            className={`${styles.input} ${state.tags === "" ? `${styles.error}` : ""}`}
-            type="text"
-            onChange={handleChange}
-            value={state.tags}
-            data-name={"tags"}
-          ></input>
-        </td>
+        {keys.map((item, i) => (
+          <td className={styles.cell}>
+            <TableCellInput
+              key={item+state['english']}
+              state={state[item]}
+              onChange={handleChange}
+              data={item}
+              valid={!disabled}
+            ></TableCellInput>
+          </td>
+        ))}
         <td className={styles.icons}>
           <button className={styles.iconBtn}>
             <Icon
               fontSize="small"
               className={styles.iconAccent}
-              onClick={handleSave}            
+              onClick={handleSave}
             >
               save
             </Icon>

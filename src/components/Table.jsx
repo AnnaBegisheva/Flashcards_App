@@ -2,19 +2,19 @@ import React, { useState } from "react";
 import styles from "../assets/styles/modules/table.module.scss";
 import NewWord from "./NewWord";
 import TableRow from "./TableRow";
+import useLocalStorage from "../hooks/useLocalStorage";
 // import words from '../assets/data.json'
 
 function Table() {
   const [editable, setEditable] = useState();
   // localStorage.setItem('JSON', JSON.stringify(words));
-  let dataArr = JSON.parse(localStorage.getItem("JSON"));
-  const [data, setData] = useState(dataArr);
+  let initialData = JSON.parse(localStorage.getItem("JSON"));
+  const [data, setData] = useLocalStorage("JSON", initialData);
 
   const handleDelete = (i) => {
     const newData = [...data];
     newData.splice(i, 1);
     setData(newData);
-    localStorage.setItem("JSON", JSON.stringify(newData));
   };
 
   const handleSave = (state) => {
@@ -28,7 +28,7 @@ function Table() {
         }
       }
     });
-    localStorage.setItem("JSON", JSON.stringify(newData));
+    setData(newData);
   };
 
   return (
@@ -50,7 +50,8 @@ function Table() {
             transcription={""}
             russian={""}
             tags={""}
-            addWord={(newData) => setData(newData)}
+            addWord={(newWord) => setData([...data, newWord])}
+            data={data}
           />
           {data.map((tr, i) => (
             <TableRow

@@ -1,37 +1,33 @@
 import React, { useState, useEffect } from "react";
 import styles from "../assets/styles/modules/table-row.module.scss";
+import TableCellInput from "./TableCellInput";
+import CheckValidation from "./CheckValidation";
 import Icon from "@mui/material/Icon";
-import useLocalStorage from "../hooks/useLocalStorage";
 
 function NewWord(props) {
   const [state, setState] = useState(props);
-  let dataArr = JSON.parse(localStorage.getItem("JSON"));
-  const [data, setData] = useLocalStorage("JSON", dataArr);
   const [errors, setErrors] = useState({});
   const [disabled, setDisabled] = useState();
+  const keys = ["english", "transcription", "russian", "tags"];
 
   useEffect(() => {
     if (disabled === false) {
       setDisabled(undefined);
       let newWord = {
         english: state.english,
-        id: data.length > 0 ? +data[data.length - 1].id + 1 : 1,
+        id:
+          props.data.length > 0 ? +props.data[props.data.length - 1].id + 1 : 1,
         russian: state.russian,
         tags: state.tags,
         transcription: state.transcription,
       };
-      const newData = [...data];
-      setData([...newData, newWord]);
+      props.addWord(newWord);
       setState(props);
 
       console.log("New word data:", newWord);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [disabled]);
-
-  useEffect(() => {
-    props.addWord(data);
-  }, [data]);
 
   const handleChange = (event) => {
     event.stopPropagation();
@@ -46,134 +42,29 @@ function NewWord(props) {
     setState(props);
   };
 
-  const checkValidation = () => {
-    const checkEnglish = (item) => {
-      let arrWord = [];
-      dataArr.forEach((element) => {
-        arrWord.push(element["english"]);
-      });
-
-      if (state[item].length === 0) {
-        return "The field is empty";
-      } else if (arrWord.includes(state[item])) {
-        return "The word is already in the dictionary";
-      } else if (!/^[a-zA-Z]+$/.test(state[item])) {
-        return "Only latin letters";
-      } else {
-        return undefined;
-      }
-    };
-
-    const checkTranscription = (item) => {
-      const length = state[item].length;
-      if (length === 0) {
-        return "The field is empty";
-      } else if (state[item][length - 1] !== "]" || state[item][0] !== "[") {
-        return "Use parentheses for transcription";
-      } else {
-        return undefined;
-      }
-    };
-
-    const checkRussian = (item) => {
-      if (state[item].length === 0) {
-        return "The field is empty";
-      } else if (!/^[а-яА-Я]+$/.test(state[item])) {
-        return "Use only cyrillic letters";
-      } else {
-        return undefined;
-      }
-    };
-
-    const newErrors = Object.keys(state).reduce((account, item) => {
-      switch (item) {
-        case "english":
-          account = {
-            ...account,
-            [item]: checkEnglish(item),
-          };
-          break;
-        case "transcription":
-          account = {
-            ...account,
-            [item]: checkTranscription(item),
-          };
-          break;
-        case "russian":
-        case "tags":
-          account = {
-            ...account,
-            [item]: checkRussian(item),
-          };
-          break;
-        default:
-          break;
-      }
-      return account;
-    }, {});
-
-    let d = false;
-    Object.keys(newErrors).forEach((item) => {
-      if (newErrors[item] !== undefined) {
-        d = true;
-      }
-    });
-    if (d !== disabled) {
-      setDisabled(d);
-    }
-    setErrors(newErrors);
+  const validate = () => {
+    const { errors, valid } = CheckValidation(state, true);
+    setDisabled(!valid);
+    setErrors(errors);
+    return valid;
   };
 
   const handleSave = () => {
-    checkValidation();
+    validate();
   };
 
   return (
     <tr className={styles.row}>
-      <td className={styles.cell}>
-        <input
-          className={`${styles.input} ${
-            errors.english === undefined ? "" : `${styles.error}`
-          }`}
-          type="text"
-          onChange={handleChange}
-          value={state.english}
-          data-name={"english"}
-        ></input>
-      </td>
-      <td className={styles.cell}>
-        <input
-          className={`${styles.input} ${
-            errors.transcription === undefined ? "" : `${styles.error}`
-          }`}
-          type="text"
-          onChange={handleChange}
-          value={state.transcription}
-          data-name={"transcription"}
-        ></input>
-      </td>
-      <td className={styles.cell}>
-        <input
-          className={`${styles.input} ${
-            errors.russian === undefined ? "" : `${styles.error}`
-          }`}
-          type="text"
-          onChange={handleChange}
-          value={state.russian}
-          data-name={"russian"}
-        ></input>
-      </td>
-      <td className={styles.cell}>
-        <input
-          className={`${styles.input} ${
-            errors.tags === undefined ? "" : `${styles.error}`
-          }`}
-          type="text"
-          onChange={handleChange}
-          value={state.tags}
-          data-name={"tags"}
-        ></input>
-      </td>
+      {keys.map((item, i) => (
+        <td className={styles.cell}>
+          <TableCellInput
+            valid={!disabled}
+            onChange={handleChange}
+            state={state[item]}
+            data={item}
+          ></TableCellInput>
+        </td>
+      ))}
       <td className={styles.icons}>
         <button className={styles.iconBtn} disabled={disabled}>
           <Icon
