@@ -3,8 +3,9 @@ const DataContext = React.createContext();
 
 function DataContextProvider(props) {
   const [data, setData] = useState([]);
-  const [errors, setErrors] = useState(true);
+  const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(true);
+  const [valid, setValid] = useState(undefined);
 
   useEffect(() => {
     getData();
@@ -57,7 +58,7 @@ function DataContextProvider(props) {
 
   return (
     <DataContext.Provider
-      value={{ data, loading, errors, editWord, deleteWord, addWord }}
+      value={{ data, loading, errors, valid, editWord, deleteWord, addWord, setErrors, setValid }}
     >
       {props.children}
     </DataContext.Provider>

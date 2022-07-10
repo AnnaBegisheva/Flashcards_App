@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { DataContext } from "../context/DataContext";
 import styles from "../assets/styles/modules/table-row.module.scss";
 import TableCellInput from "./TableCellInput";
 import CheckValidation from "./CheckValidation";
@@ -8,8 +9,9 @@ function TableRow(props) {
   let isEditable = props.isEditable;
   const [state, setState] = useState(props);
   const [disabled, setDisabled] = useState(false);
+  const { setValid, setErrors } = useContext(DataContext);
   const keys = ["english", "transcription", "russian", "tags"];
-
+  
   useEffect(() => {
     let isEmpty = false;
     keys.forEach((element) => {
@@ -18,7 +20,7 @@ function TableRow(props) {
       }
     });
     setDisabled(isEmpty);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [disabled, state.english, state.russian, state.tags, state.transcription]);
 
   const handleChange = (event) => {
@@ -43,20 +45,21 @@ function TableRow(props) {
   };
 
   const validate = () => {
-    const {valid} = CheckValidation(state, false);
+    const { errors, valid } = CheckValidation(state, false);
     if (valid === disabled) {
       setDisabled(!disabled);
     }
+    setErrors(errors);
+    setValid(valid);
     return valid;
   };
 
-    if (isEditable) {
+  if (isEditable) {
     return (
       <tr className={styles.row}>
         {keys.map((item, i) => (
-          <td className={styles.cell}>
+          <td className={styles.cell} key={i}>
             <TableCellInput
-              key={item+state['english']}
               state={state[item]}
               onChange={handleChange}
               data={item}
@@ -89,7 +92,7 @@ function TableRow(props) {
   } else {
     return (
       <tr className={styles.row}>
-        <td className={styles.cell}>{props.english}</td>
+        <td className={styles.cell}>{props.english} </td>
         <td className={styles.cell}>{props.transcription}</td>
         <td className={styles.cell}>{props.russian}</td>
         <td className={styles.cell}>{props.tags}</td>

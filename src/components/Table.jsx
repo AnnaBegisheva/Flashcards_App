@@ -4,10 +4,11 @@ import styles from "../assets/styles/modules/table.module.scss";
 import NewWord from "./NewWord";
 import TableRow from "./TableRow";
 import Loading from "./Loading";
+import ErrorsModal from "./ErrorsModal";
 
 function Table() {
   const [editable, setEditable] = useState();
-  const { data, loading, editWord, deleteWord, addWord } =
+  const { data, loading, valid, editWord, deleteWord, addWord } =
     useContext(DataContext);
 
   const getWord = (state) => {
@@ -50,6 +51,7 @@ function Table() {
         </thead>
         <tbody className={styles.body}>
           <NewWord
+            key={Math.random() * 55}
             className={styles.row}
             english={""}
             transcription={""}
@@ -76,6 +78,7 @@ function Table() {
           ))}
         </tbody>
       </table>
+      {valid === false && <ErrorsModal></ErrorsModal>}
     </div>
   );
 }

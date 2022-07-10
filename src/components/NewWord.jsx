@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styles from "../assets/styles/modules/table-row.module.scss";
 import TableCellInput from "./TableCellInput";
 import CheckValidation from "./CheckValidation";
+import { DataContext } from "../context/DataContext";
 import Icon from "@mui/material/Icon";
 
 function NewWord(props) {
   const [state, setState] = useState(props);
-  const [errors, setErrors] = useState({});
   const [disabled, setDisabled] = useState();
+  const { setValid, setErrors } = useContext(DataContext);
   const keys = ["english", "transcription", "russian", "tags"];
 
   useEffect(() => {
@@ -45,6 +46,7 @@ function NewWord(props) {
   const validate = () => {
     const { errors, valid } = CheckValidation(state, true);
     setDisabled(!valid);
+    setValid(valid);
     setErrors(errors);
     return valid;
   };
@@ -56,8 +58,9 @@ function NewWord(props) {
   return (
     <tr className={styles.row}>
       {keys.map((item, i) => (
-        <td className={styles.cell}>
+        <td className={styles.cell} key={i}>
           <TableCellInput
+            key={i}
             valid={!disabled}
             onChange={handleChange}
             state={state[item]}

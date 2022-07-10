@@ -32,7 +32,7 @@ function CheckValidation(state, isNewWord) {
   const checkRussian = (item) => {
     if (state[item].length === 0) {
       return "The field is empty";
-    } else if (!/^[а-яА-Я]+$/.test(state[item])) {
+    } else if (!/^[а-яА-ЯёЁ\s-]+$/.test(state[item])) {
       return "Use only cyrillic letters";
     } else {
       return undefined;
