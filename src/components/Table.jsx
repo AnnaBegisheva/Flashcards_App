@@ -1,35 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { DataContext } from "../context/DataContext";
 import styles from "../assets/styles/modules/table.module.scss";
 import NewWord from "./NewWord";
 import TableRow from "./TableRow";
-import useLocalStorage from "../hooks/useLocalStorage";
-// import words from '../assets/data.json'
+import Loading from "./Loading";
 
 function Table() {
   const [editable, setEditable] = useState();
-  // localStorage.setItem('JSON', JSON.stringify(words));
-  let initialData = JSON.parse(localStorage.getItem("JSON"));
-  const [data, setData] = useLocalStorage("JSON", initialData);
+  const { data, loading, editWord, deleteWord, addWord } =
+    useContext(DataContext);
 
-  const handleDelete = (i) => {
-    const newData = [...data];
-    newData.splice(i, 1);
-    setData(newData);
+  const getWord = (state) => {
+    return {
+      id: state.id,
+      english: state.english,
+      transcription: state.transcription,
+      russian: state.russian,
+      tags: state.tags,
+    };
+  };
+
+  const handleDelete = (state) => {
+    deleteWord(getWord(state));
   };
 
   const handleSave = (state) => {
-    const newData = [...data];
-    newData.forEach((element) => {
-      if (element.id === state.id) {
-        for (const key in element) {
-          if (Object.hasOwnProperty.call(element, key)) {
-            element[key] = state[key];
-          }
-        }
-      }
-    });
-    setData(newData);
+    editWord(getWord(state));
   };
+
+  if (loading) {
+    return (
+      <div className={styles.container}>
+        <Loading></Loading>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
@@ -50,7 +55,7 @@ function Table() {
             transcription={""}
             russian={""}
             tags={""}
-            addWord={(newWord) => setData([...data, newWord])}
+            addWord={(newWord) => addWord(newWord)}
             data={data}
           />
           {data.map((tr, i) => (
@@ -65,7 +70,7 @@ function Table() {
               isEditable={editable === i}
               edit={() => setEditable(i)}
               cancel={() => setEditable(!editable)}
-              delete={() => handleDelete(i)}
+              delete={() => handleDelete(tr)}
               save={(state) => handleSave(state, setEditable)}
             ></TableRow>
           ))}
