@@ -22,7 +22,7 @@ function DataContextProvider(props) {
       .finally(() => {
         setLoading(false)
       });
-  };
+  };  
 
   const editWord = (word) => {
     fetch(`http://itgirlschool.justmakeit.ru/api/words/${word.id}/update`, {

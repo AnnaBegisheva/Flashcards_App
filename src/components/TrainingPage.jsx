@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styles from "../assets/styles/modules/training-page.module.scss";
 import Card from "./Card";
+import { DataContext } from "../context/DataContext";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 function TrainingPage(props) {
-  const data = props.data;
+  const { data } = useContext(DataContext);
   const [translated, setTranslated] = useState(null);
   const [count, setCount] = useState(props.count || 0);
   const [learned, setLearned] = useState(0);
