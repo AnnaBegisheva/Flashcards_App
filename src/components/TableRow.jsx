@@ -9,7 +9,7 @@ function TableRow(props) {
   let isEditable = props.isEditable;
   const [state, setState] = useState(props);
   const [disabled, setDisabled] = useState(false);
-  const { setValid, setErrors } = useContext(DataContext);
+  const { data, setValid, setErrors } = useContext(DataContext);
   const keys = ["english", "transcription", "russian", "tags"];
   
   useEffect(() => {
@@ -45,7 +45,7 @@ function TableRow(props) {
   };
 
   const validate = () => {
-    const { errors, valid } = CheckValidation(state, false);
+    const { errors, valid } = CheckValidation(state, false, data);
     if (valid === disabled) {
       setDisabled(!disabled);
     }

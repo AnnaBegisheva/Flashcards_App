@@ -8,7 +8,7 @@ import Icon from "@mui/material/Icon";
 function NewWord(props) {
   const [state, setState] = useState(props);
   const [disabled, setDisabled] = useState();
-  const { setValid, setErrors } = useContext(DataContext);
+  const { data, setValid, setErrors } = useContext(DataContext);
   const keys = ["english", "transcription", "russian", "tags"];
 
   useEffect(() => {
@@ -44,7 +44,7 @@ function NewWord(props) {
   };
 
   const validate = () => {
-    const { errors, valid } = CheckValidation(state, true);
+    const { errors, valid } = CheckValidation(state, true, data);
     setDisabled(!valid);
     setValid(valid);
     setErrors(errors);

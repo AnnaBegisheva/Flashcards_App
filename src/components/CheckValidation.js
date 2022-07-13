@@ -1,7 +1,5 @@
-function CheckValidation(state, isNewWord) {
-  const data = JSON.parse(localStorage.getItem("JSON"));
-
-  const checkEnglish = (item, isNewWord) => {
+function CheckValidation(state, isNewWord, data) {
+  const checkEnglish = (item, isNewWord, data) => {
     let words = [];
     data.forEach((element) => {
       words.push(element["english"]);
@@ -44,7 +42,7 @@ function CheckValidation(state, isNewWord) {
       case "english":
         account = {
           ...account,
-          [item]: checkEnglish(item, isNewWord),
+          [item]: checkEnglish(item, isNewWord, data),
         };
         break;
       case "transcription":
