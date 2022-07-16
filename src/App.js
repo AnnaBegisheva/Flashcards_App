@@ -1,5 +1,7 @@
 import { Routes, Route } from "react-router-dom";
-import { DataContextProvider } from "./context/DataContext";
+// import { DataContextProvider } from "./context/DataContext";
+import { Provider } from "mobx-react";
+import DataStore from "./store/data";
 import "./App.scss";
 import MainPage from "./components/MainPage";
 import Table from "./components/Table";
@@ -8,8 +10,12 @@ import Vocabulary from "./components/Vocabulary";
 import NotFound from "./components/NotFound";
 
 function App() {
+  const store = {
+    dataStore: new DataStore(),
+  };
+
   return (
-    <DataContextProvider>
+    <Provider {...store}>
       <div className="container">
         <Routes>
           <Route path="*" element={<NotFound />} />
@@ -20,7 +26,7 @@ function App() {
           </Route>
         </Routes>
       </div>
-    </DataContextProvider>
+    </Provider>
   );
 }
 

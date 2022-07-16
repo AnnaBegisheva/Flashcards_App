@@ -1,35 +1,36 @@
-import React, { useState, useContext } from "react";
-import { DataContext } from "../context/DataContext";
+import React, { useState, useEffect } from "react";
+import { inject, observer } from "mobx-react";
 import styles from "../assets/styles/modules/table.module.scss";
 import NewWord from "./NewWord";
 import TableRow from "./TableRow";
 import Loading from "./Loading";
 import ErrorsModal from "./ErrorsModal";
 
-function Table() {
+function Table({ dataStore }) {
   const [editable, setEditable] = useState();
-  const { data, loading, valid, editWord, deleteWord, addWord } =
-    useContext(DataContext);
 
-  const getWord = (state) => {
-    return {
-      id: state.id,
-      english: state.english,
-      transcription: state.transcription,
-      russian: state.russian,
-      tags: state.tags,
-    };
-  };
+useEffect (() => {
+  dataStore.loadData();
+}, [])
 
-  const handleDelete = (state) => {
-    deleteWord(getWord(state));
+  const handleDelete = (i) => {
+    dataStore.removeWord(i);
   };
 
   const handleSave = (state) => {
-    editWord(getWord(state));
+    dataStore.data.forEach((element) => {
+      if (element.id === state.id) {
+        for (const key in element) {
+          if (Object.hasOwnProperty.call(element, key)) {
+            element[key] = state[key];
+          }
+        }
+      }
+    });
+    dataStore.editWord(state);
   };
 
-  if (loading) {
+  if (!dataStore.isLoaded) {
     return (
       <div className={styles.container}>
         <Loading></Loading>
@@ -57,10 +58,10 @@ function Table() {
             transcription={""}
             russian={""}
             tags={""}
-            addWord={(newWord) => addWord(newWord)}
-            data={data}
+            addWord={(newWord) => dataStore.addWord(newWord)}
+            data={dataStore.data}
           />
-          {data.map((tr, i) => (
+          {dataStore.data.map((tr, i) => (
             <TableRow
               key={tr.id}
               id={tr.id}
@@ -78,9 +79,9 @@ function Table() {
           ))}
         </tbody>
       </table>
-      {valid === false && <ErrorsModal></ErrorsModal>}
+      {dataStore.hasErrors === true && <ErrorsModal></ErrorsModal>}
     </div>
   );
 }
 
-export default Table;
+export default inject(["dataStore"])(observer(Table));

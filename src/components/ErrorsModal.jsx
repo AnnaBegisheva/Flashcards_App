@@ -1,5 +1,5 @@
-import React, { useState, useContext } from "react";
-import { DataContext } from "../context/DataContext";
+import React, { useState } from "react";
+import { inject, observer } from "mobx-react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -12,12 +12,11 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function ErrorsModal() {
+function ErrorsModal({ dataStore }) {
   const [open, setOpen] = useState(true);
-  const { errors, setValid } = useContext(DataContext);
 
   const handleClose = () => {
-    setValid(undefined);
+    dataStore.setHasErrors(false); 
     setOpen(false);
   };
 
@@ -33,11 +32,11 @@ export default function ErrorsModal() {
         <DialogTitle>Error!</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-            {Object.keys(errors).map(
+            {Object.keys(dataStore.errors).map(
               (error, i) =>
-                errors[error] !== undefined && (
+              dataStore.errors[error] !== undefined && (
                   <li key={i}>
-                    {error}: {errors[error]}
+                    {error}: {dataStore.errors[error]}
                   </li>
                 )
             )}
@@ -50,3 +49,5 @@ export default function ErrorsModal() {
     </div>
   );
 }
+
+export default inject(["dataStore"])(observer(ErrorsModal));

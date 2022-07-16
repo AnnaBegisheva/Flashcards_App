@@ -1,15 +1,14 @@
-import React, { useState, useEffect, useContext } from "react";
-import { DataContext } from "../context/DataContext";
+import React, { useState, useEffect} from "react";
+import { inject, observer } from "mobx-react";
 import styles from "../assets/styles/modules/table-row.module.scss";
 import TableCellInput from "./TableCellInput";
 import CheckValidation from "./CheckValidation";
 import Icon from "@mui/material/Icon";
 
 function TableRow(props) {
-  let isEditable = props.isEditable;
   const [state, setState] = useState(props);
   const [disabled, setDisabled] = useState(false);
-  const { data, setValid, setErrors } = useContext(DataContext);
+
   const keys = ["english", "transcription", "russian", "tags"];
   
   useEffect(() => {
@@ -45,16 +44,16 @@ function TableRow(props) {
   };
 
   const validate = () => {
-    const { errors, valid } = CheckValidation(state, false, data);
+    const { errors, valid } = CheckValidation(state, false, props.dataStore.data);
     if (valid === disabled) {
       setDisabled(!disabled);
     }
-    setErrors(errors);
-    setValid(valid);
+    props.dataStore.setErrors(errors);
+    props.dataStore.setHasErrors(!valid);
     return valid;
   };
 
-  if (isEditable) {
+  if (props.isEditable) {
     return (
       <tr className={styles.row}>
         {keys.map((item, i) => (
@@ -121,4 +120,4 @@ function TableRow(props) {
   }
 }
 
-export default TableRow;
+export default inject(["dataStore"])(observer(TableRow));

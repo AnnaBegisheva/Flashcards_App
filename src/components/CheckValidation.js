@@ -1,5 +1,5 @@
 function CheckValidation(state, isNewWord, data) {
-  const checkEnglish = (item, isNewWord, data) => {
+  const checkEnglish = (item) => {
     let words = [];
     data.forEach((element) => {
       words.push(element["english"]);
@@ -42,7 +42,7 @@ function CheckValidation(state, isNewWord, data) {
       case "english":
         account = {
           ...account,
-          [item]: checkEnglish(item, isNewWord, data),
+          [item]: checkEnglish(item),
         };
         break;
       case "transcription":
