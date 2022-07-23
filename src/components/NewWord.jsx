@@ -7,7 +7,12 @@ import CheckValidation from "./CheckValidation";
 import Icon from "@mui/material/Icon";
 
 function NewWord(props) {
-  const [state, setState] = useState(props);
+  const [state, setState] = useState({
+  english: "",
+  transcription: "",
+  russian: "",
+  tags: ""
+});
   const [disabled, setDisabled] = useState();
   const keys = ["english", "transcription", "russian", "tags"];
 

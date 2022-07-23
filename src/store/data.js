@@ -13,11 +13,11 @@ export default class DataStore {
 
   setHasErrors = (bool) => {
     this.hasErrors = bool;
-  }
+  };
 
   setErrors = (errors) => {
     this.errors = errors;
-  }
+  };
 
   loadData = async () => {
     if (this.isLoaded || this.isLoading) {
@@ -29,13 +29,18 @@ export default class DataStore {
         "http://itgirlschool.justmakeit.ru/api/words"
       );
       const recievedData = await response.json();
-      runInAction(() => {
-        this.data = recievedData;
-      });
+      if (response.ok) {
+        runInAction(() => {
+          this.data = recievedData;
+        });
+      } else {
+        throw new Error("Something went wrong ...");
+      }
     } catch (error) {
       runInAction(() => {
         this.data = [];
-        this.errors = error;
+        this.setErrors(error);
+        this.setHasErrors(true);  
       });
     } finally {
       runInAction(() => {
@@ -76,5 +81,4 @@ export default class DataStore {
       })
       .catch((errors) => (this.errors = errors));
   };
-
 }

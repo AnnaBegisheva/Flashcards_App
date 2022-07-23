@@ -54,10 +54,6 @@ useEffect (() => {
           <NewWord
             key={Math.random() * 55}
             className={styles.row}
-            english={""}
-            transcription={""}
-            russian={""}
-            tags={""}
             addWord={(newWord) => dataStore.addWord(newWord)}
             data={dataStore.data}
           />
