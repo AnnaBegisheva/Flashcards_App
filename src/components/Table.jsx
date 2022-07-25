@@ -52,7 +52,6 @@ useEffect (() => {
         </thead>
         <tbody className={styles.body}>
           <NewWord
-            key={Math.random() * 55}
             className={styles.row}
             addWord={(newWord) => dataStore.addWord(newWord)}
             data={dataStore.data}

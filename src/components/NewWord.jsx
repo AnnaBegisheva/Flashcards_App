@@ -7,18 +7,18 @@ import CheckValidation from "./CheckValidation";
 import Icon from "@mui/material/Icon";
 
 function NewWord(props) {
-  const [state, setState] = useState({
-  english: "",
-  transcription: "",
-  russian: "",
-  tags: ""
-});
+  const defaultState = {
+    english: "",
+    transcription: "",
+    russian: "",
+    tags: "",
+  };
+  const [state, setState] = useState(defaultState);
   const [disabled, setDisabled] = useState();
   const keys = ["english", "transcription", "russian", "tags"];
 
   useEffect(() => {
     if (disabled === false) {
-      console.log("useEffect")
       setDisabled(undefined);
       let newWord = {
         english: state.english,
@@ -29,7 +29,7 @@ function NewWord(props) {
         transcription: state.transcription,
       };
       props.addWord(newWord);
-      setState(props);
+      setState(defaultState);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [disabled]);
@@ -44,11 +44,15 @@ function NewWord(props) {
   };
 
   const handleCancel = () => {
-    setState(props);
+    setState(defaultState);
   };
 
   const validate = () => {
-    const { errors, valid } = CheckValidation(state, true, props.dataStore.data);
+    const { errors, valid } = CheckValidation(
+      state,
+      true,
+      props.dataStore.data
+    );
     setDisabled(!valid);
     props.dataStore.setErrors(errors);
     props.dataStore.setHasErrors(!valid);
@@ -92,4 +96,4 @@ function NewWord(props) {
   );
 }
 
-export default  inject(["dataStore"])(observer(NewWord));
+export default inject(["dataStore"])(observer(NewWord));
