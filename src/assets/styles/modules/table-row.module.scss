@@ -25,6 +25,10 @@
     background-color: transparent;
     border: none;
     cursor: pointer;
+
+    @media screen and (max-width: 500px) {
+        padding: 1px 1px 1px 4px;
+      }
 }   
 
 .icon {
@@ -37,6 +41,11 @@
     &:active {
         color: $secondary-color;
     }
+
+    @media screen and (max-width: 500px) {
+        font-size: 0.8rem !important;
+        padding: 1px 4px;
+      }
 }
 
 .iconAccent {
@@ -49,6 +58,11 @@
     &:active {
         color: $accent-color;
     }
+
+    @media screen and (max-width: 500px) {
+        font-size: 0.8rem !important;
+        padding: 1px 4px;
+      }
 }
 
 .input {

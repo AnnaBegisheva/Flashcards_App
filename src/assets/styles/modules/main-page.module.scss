@@ -27,6 +27,15 @@ img {
     backdrop-filter: blur(26.1418px);
     position: relative;
     display: flex;
+
+    @media screen and (max-width: 768px) {
+        margin-top: 20px;
+      }
+
+    @media screen and (max-width: 600px) {
+        width: 100%;
+        margin-top: 5px;
+      }
 }
 
 .folderImg {
@@ -40,6 +49,7 @@ img {
     color: $menu-color;
     align-self: flex-start;
     margin-top: 30px;
+    margin-left: 20px;
     display: none !important;
 
     &:hover {
@@ -54,9 +64,4 @@ img {
         display: inline-block !important;
         z-index: 20;
     }
-}
-
-.footer {
-    width: 100%;
-    background-color: aquamarine;
 }

@@ -91,6 +91,7 @@ function Table({ dataStore }) {
       <Stack spacing={2}>
         <Pagination
         className={styles.pagination}
+        size="small"
           count={count}
           page={page}
           shape="rounded"

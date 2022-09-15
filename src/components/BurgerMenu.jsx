@@ -1,10 +1,10 @@
 import NavLinks from "./NavLinks";
-import styles from '../assets/styles/modules/burger-menu.module.scss'
+import styles from "../assets/styles/modules/burger-menu.module.scss";
 
-const BurgerMenu = () => {
+const BurgerMenu = (props) => {
   return (
     <nav className={styles.container}>
-      <NavLinks />
+      <NavLinks onClick={props.clickState}/>
     </nav>
   );
 };
