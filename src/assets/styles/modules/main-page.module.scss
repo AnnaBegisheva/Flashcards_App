@@ -10,6 +10,7 @@ img {
     min-height: 100vh;
     overflow: hidden;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -18,17 +19,14 @@ img {
     box-sizing: border-box; 
     width: 85%;
     border-radius: 20px;
-    min-height: 80vh;
+    flex: 1 1 auto;
+    margin-top: 70px;
     padding: 20px 0;
     background: rgba(255, 255, 255, 0.2);
     box-shadow: 13.0709px 13.0709px 104.567px rgba(63, 39, 102, 0.1);
     backdrop-filter: blur(26.1418px);
     position: relative;
     display: flex;
-}
-
-.sidebar {
-    flex-grow: 1;
 }
 
 .folderImg {
@@ -56,4 +54,9 @@ img {
         display: inline-block !important;
         z-index: 20;
     }
+}
+
+.footer {
+    width: 100%;
+    background-color: aquamarine;
 }

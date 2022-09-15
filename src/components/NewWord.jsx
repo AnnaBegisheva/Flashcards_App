@@ -65,7 +65,7 @@ function NewWord(props) {
 
   return (
     <tr className={styles.row}>
-      {keys.map((item, i) => (
+      {keys.map((item, i) => (  
         <td className={styles.cell} key={i}>
           <TableCellInput
             key={i}

@@ -15,13 +15,13 @@ const MainPage = () => {
       <MenuIcon fontSize="large" className={styles.burgerIcon} onClick = {() => setOpen(!open)} />
       {open && <BurgerMenu/>}
       <div className={styles.content}>
-        <Sidebar className={styles.sidebar}></Sidebar>
-        <Outlet />
-        <Footer></Footer>
+        <Sidebar/>
+        <Outlet/>
         <div className={styles.folderImg}>
           <img src={bgFolder} alt="folder"></img>
         </div>
       </div>
+      <Footer className={styles.footer}/>
     </div>
   );
 }

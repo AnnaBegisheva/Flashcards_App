@@ -5,13 +5,26 @@ import NewWord from "./NewWord";
 import TableRow from "./TableRow";
 import Loading from "./Loading";
 import ErrorsModal from "./ErrorsModal";
+import Pagination from "@mui/material/Pagination";
+import usePagination from "../hooks/usePagination"
+import Stack from "@mui/material/Stack";
 
 function Table({ dataStore }) {
   const [editable, setEditable] = useState();
+  let [page, setPage] = useState(1);
+  const rowsNum = 10;
 
-useEffect (() => {
-  dataStore.loadData();
-}, [])
+  const count = Math.ceil(dataStore.data.length / rowsNum);
+  const dataByPage = usePagination(dataStore.data, rowsNum);
+  
+  const handlePagination = (e, p) => {
+    setPage(p);
+    dataByPage.jump(p);
+  };
+
+  useEffect(() => {
+    dataStore.loadData();
+  }, []);
 
   const handleDelete = (i) => {
     dataStore.removeWord(i);
@@ -56,7 +69,7 @@ useEffect (() => {
             addWord={(newWord) => dataStore.addWord(newWord)}
             data={dataStore.data}
           />
-          {dataStore.data.map((tr, i) => (
+          {dataByPage.currentData().map((tr, i) => (
             <TableRow
               key={tr.id}
               id={tr.id}
@@ -75,6 +88,15 @@ useEffect (() => {
         </tbody>
       </table>
       {dataStore.hasErrors === true && <ErrorsModal></ErrorsModal>}
+      <Stack spacing={2}>
+        <Pagination
+        className={styles.pagination}
+          count={count}
+          page={page}
+          shape="rounded"
+          onChange={handlePagination}
+        />
+      </Stack>
     </div>
   );
 }
