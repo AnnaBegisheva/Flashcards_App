@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { inject, observer } from "mobx-react";
 import styles from "../assets/styles/modules/training-page.module.scss";
 import Card from "./Card";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 function TrainingPage(props) {
-  const data = props.data;
   const [translated, setTranslated] = useState(null);
   const [count, setCount] = useState(props.count || 0);
   const [learned, setLearned] = useState(0);
@@ -29,8 +29,8 @@ function TrainingPage(props) {
   const handleCount = (i) => {
     setTranslated(null);
     if (i<0) {
-      setCount(data.length-1);
-    } else if (i>data.length-1) {
+      setCount(props.dataStore.data.length-1);
+    } else if (i>props.dataStore.data.length-1) {
       setCount(0);
     } else {
       setCount(i);
@@ -43,7 +43,7 @@ function TrainingPage(props) {
       <button className={styles.button} onClick={() => handleCount(count - 1)}>
         <ArrowBackIosIcon className={styles.icon} />
       </button>
-      {data.map((card, count) => (
+      {props.dataStore.data.map((card, count) => (
         <Card
           key={count}
           className={styles.row}
@@ -65,4 +65,4 @@ function TrainingPage(props) {
   );
 }
 
-export default TrainingPage;
+export default inject(["dataStore"])(observer(TrainingPage));

@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from "react";
+import { inject, observer } from "mobx-react";
 import styles from "../assets/styles/modules/table-row.module.scss";
 import TableCellInput from "./TableCellInput";
 import CheckValidation from "./CheckValidation";
+// import { DataContext } from "../context/DataContext";
 import Icon from "@mui/material/Icon";
 
 function NewWord(props) {
-  const [state, setState] = useState(props);
-  const [errors, setErrors] = useState({});
+  const defaultState = {
+    english: "",
+    transcription: "",
+    russian: "",
+    tags: "",
+  };
+  const [state, setState] = useState(defaultState);
   const [disabled, setDisabled] = useState();
   const keys = ["english", "transcription", "russian", "tags"];
 
@@ -22,9 +29,7 @@ function NewWord(props) {
         transcription: state.transcription,
       };
       props.addWord(newWord);
-      setState(props);
-
-      console.log("New word data:", newWord);
+      setState(defaultState);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [disabled]);
@@ -39,13 +44,18 @@ function NewWord(props) {
   };
 
   const handleCancel = () => {
-    setState(props);
+    setState(defaultState);
   };
 
   const validate = () => {
-    const { errors, valid } = CheckValidation(state, true);
+    const { errors, valid } = CheckValidation(
+      state,
+      true,
+      props.dataStore.data
+    );
     setDisabled(!valid);
-    setErrors(errors);
+    props.dataStore.setErrors(errors);
+    props.dataStore.setHasErrors(!valid);
     return valid;
   };
 
@@ -55,9 +65,10 @@ function NewWord(props) {
 
   return (
     <tr className={styles.row}>
-      {keys.map((item, i) => (
-        <td className={styles.cell}>
+      {keys.map((item, i) => (  
+        <td className={styles.cell} key={i}>
           <TableCellInput
+            key={i}
             valid={!disabled}
             onChange={handleChange}
             state={state[item]}
@@ -85,4 +96,4 @@ function NewWord(props) {
   );
 }
 
-export default NewWord;
+export default inject(["dataStore"])(observer(NewWord));

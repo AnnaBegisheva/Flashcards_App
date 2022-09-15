@@ -1,7 +1,5 @@
-function CheckValidation(state, isNewWord) {
-  const data = JSON.parse(localStorage.getItem("JSON"));
-
-  const checkEnglish = (item, isNewWord) => {
+function CheckValidation(state, isNewWord, data) {
+  const checkEnglish = (item) => {
     let words = [];
     data.forEach((element) => {
       words.push(element["english"]);
@@ -32,7 +30,7 @@ function CheckValidation(state, isNewWord) {
   const checkRussian = (item) => {
     if (state[item].length === 0) {
       return "The field is empty";
-    } else if (!/^[а-яА-Я]+$/.test(state[item])) {
+    } else if (!/^[а-яА-ЯёЁ\s-]+$/.test(state[item])) {
       return "Use only cyrillic letters";
     } else {
       return undefined;
@@ -44,7 +42,7 @@ function CheckValidation(state, isNewWord) {
       case "english":
         account = {
           ...account,
-          [item]: checkEnglish(item, isNewWord),
+          [item]: checkEnglish(item),
         };
         break;
       case "transcription":
