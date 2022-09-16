@@ -26,7 +26,7 @@ export default class DataStore {
     try {
       this.isLoading = true;
       const response = await fetch(
-        "http://itgirlschool.justmakeit.ru/api/words"
+        "https://cors-everywhere.herokuapp.com/http://itgirlschool.justmakeit.ru/api/words"
       );
       const recievedData = await response.json();
       if (response.ok) {
