@@ -1,1 +1,19 @@
 @import "../vars";
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.text {
+    margin-right: 5px;
+}
+
+.logo {
+    width: 30px;
+
+    &:hover {
+        transform: scale(1.2);
+    }
+}

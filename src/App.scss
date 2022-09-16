@@ -7,4 +7,15 @@
   font-family: $base-font;
   font-size: $base-fontSize;
   font-weight: $base-fontWeight;
+
+  @media screen and (max-width: 900px) {
+    font-size: smaller;
+  }
+  @media screen and (max-width: 500px) {
+    font-size: 10px;
+  }
+
+  @media screen and (max-width: 375px) {
+    font-size: 10px;
+  }
 }

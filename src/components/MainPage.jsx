@@ -6,6 +6,7 @@ import Sidebar from "./Sidebar";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
 import BurgerMenu from "./BurgerMenu";
+import { OpenInFullOutlined } from "@mui/icons-material";
 
 const MainPage = () => {
   const [open, setOpen] = useState(false);
@@ -13,15 +14,15 @@ const MainPage = () => {
   return (
     <div className={styles.wrapper}>
       <MenuIcon fontSize="large" className={styles.burgerIcon} onClick = {() => setOpen(!open)} />
-      {open && <BurgerMenu/>}
+      {open && <BurgerMenu clickState={() => setOpen(!open)}/>}
       <div className={styles.content}>
-        <Sidebar className={styles.sidebar}></Sidebar>
-        <Outlet />
-        <Footer></Footer>
+        <Sidebar/>
+        <Outlet/>
         <div className={styles.folderImg}>
           <img src={bgFolder} alt="folder"></img>
         </div>
       </div>
+      <Footer className={styles.footer}/>
     </div>
   );
 }

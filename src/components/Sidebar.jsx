@@ -12,7 +12,7 @@ function Sidebar() {
           Vocabulary <span>magnifier!</span>
         </Link>
       </div>
-      <nav>
+      <nav className={styles.nav}>
         <NavLinks />
       </nav>
     </div>
