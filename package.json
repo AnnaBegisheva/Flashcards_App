@@ -2,7 +2,7 @@
   "name": "flashcards_app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://AnnaBegisheva.github.io",
+  "homepage": "https://AnnaBegisheva.github.io/flashcards_app/",
   "dependencies": {
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
