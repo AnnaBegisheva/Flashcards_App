@@ -1,18 +1,18 @@
 {
   "files": {
     "main.css": "/flashcards_app/static/css/main.b7ada162.css",
-    "main.js": "/flashcards_app/static/js/main.207b749d.js",
+    "main.js": "/flashcards_app/static/js/main.e69f205e.js",
     "static/js/787.180aed71.chunk.js": "/flashcards_app/static/js/787.180aed71.chunk.js",
     "static/media/Poppins-Regular.ttf": "/flashcards_app/static/media/Poppins-Regular.35d26b781dc5fda684cc.ttf",
     "static/media/magnifier.png": "/flashcards_app/static/media/magnifier.363a87f2f16a083f3f27.png",
     "static/media/folder.png": "/flashcards_app/static/media/folder.5bb4eaed081340a43c4f.png",
     "index.html": "/flashcards_app/index.html",
     "main.b7ada162.css.map": "/flashcards_app/static/css/main.b7ada162.css.map",
-    "main.207b749d.js.map": "/flashcards_app/static/js/main.207b749d.js.map",
+    "main.e69f205e.js.map": "/flashcards_app/static/js/main.e69f205e.js.map",
     "787.180aed71.chunk.js.map": "/flashcards_app/static/js/787.180aed71.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b7ada162.css",
-    "static/js/main.207b749d.js"
+    "static/js/main.e69f205e.js"
   ]
 }
