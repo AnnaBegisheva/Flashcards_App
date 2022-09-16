@@ -51,7 +51,7 @@ export default class DataStore {
   };
 
   editWord = (word) => {
-    fetch(`http://itgirlschool.justmakeit.ru/api/words/${word.id}/update`, {
+    fetch(`"https://cors-everywhere.herokuapp.com/http://itgirlschool.justmakeit.ru/api/words/${word.id}/update`, {
       method: "POST",
       body: JSON.stringify(word),
     })
@@ -62,7 +62,7 @@ export default class DataStore {
   };
 
   addWord = (newWord) => {
-    fetch(`http://itgirlschool.justmakeit.ru/api/words/add`, {
+    fetch(`"https://cors-everywhere.herokuapp.com/http://itgirlschool.justmakeit.ru/api/words/add`, {
       method: "POST",
       body: JSON.stringify(newWord),
     })
@@ -73,7 +73,7 @@ export default class DataStore {
   };
 
   removeWord = (word) => {
-    fetch(`http://itgirlschool.justmakeit.ru/api/words/${word.id}/delete`, {
+    fetch(`"https://cors-everywhere.herokuapp.com/http://itgirlschool.justmakeit.ru/api/words/${word.id}/delete`, {
       method: "POST",
     })
       .then(() => {
